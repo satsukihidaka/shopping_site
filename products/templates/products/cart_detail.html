@@ -1,0 +1,71 @@
+{% extends "products/base.html" %}
+
+{% block title %}カート | shopping_site{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="h3 mb-1">ショッピングカート</h1>
+    <p class="text-muted mb-0">追加された商品がここに集まります。</p>
+</div>
+
+{% if cart_items %}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+                <div class="card shadow-sm mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded-start h-100 w-100" alt="{{ item.product.title }}" style="object-fit: cover; min-height: 220px;">
+                            {% else %}
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100" style="min-height: 220px;">
+                                    NO IMAGE
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body h-100 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <span class="badge text-bg-secondary mb-2">{{ item.product.category.name }}</span>
+                                        <h2 class="h5 card-title mb-2">{{ item.product.title }}</h2>
+                                    </div>
+                                    <form action="{% url 'remove_from_cart' pk=item.product.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+                                    </form>
+                                </div>
+                                <p class="text-muted mb-3">数量: {{ item.quantity }}</p>
+                                <div class="mt-auto">
+                                    <div class="fw-bold text-danger fs-5">小計: ¥{{ item.line_total }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">合計</h2>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>商品点数</span>
+                        <strong>{{ cart_count }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>合計金額</span>
+                        <strong class="text-danger">¥{{ total_price }}</strong>
+                    </div>
+                    <button type="button" class="btn btn-dark w-100" disabled>購入手続きへ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-light border">
+        カートは空です。商品詳細ページから追加できます。
+    </div>
+{% endif %}
+{% endblock %}

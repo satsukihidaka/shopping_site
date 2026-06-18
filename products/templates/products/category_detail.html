@@ -1,13 +1,12 @@
 {% extends "products/base.html" %}
 
-{% block title %}商品一覧 | shopping_site{% endblock %}
+{% block title %}{{ category.name }} | shopping_site{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-end justify-content-between mb-4">
-    <div>
-        <h1 class="h3 mb-1">すべての商品</h1>
-        <p class="text-muted mb-0">画像にカーソルを合わせると価格が表示されます。</p>
-    </div>
+<div class="mb-4">
+    <span class="badge text-bg-secondary mb-2">{{ category.name }}</span>
+    <h1 class="h3 mb-1">{{ category.name }}</h1>
+    <p class="text-muted mb-0">{{ products|length }}件の商品があります。</p>
 </div>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
@@ -31,7 +30,7 @@
         </div>
     {% empty %}
         <div class="col-12">
-            <div class="alert alert-light border mb-0">現在表示できる商品はありません。</div>
+            <div class="alert alert-light border mb-0">このカテゴリに商品はありません。</div>
         </div>
     {% endfor %}
 </div>
