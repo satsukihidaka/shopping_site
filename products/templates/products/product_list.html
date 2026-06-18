@@ -19,20 +19,22 @@
         <div class="row row-cols-1 row-cols-md-4 g-4">
             {% for product in products %}
             <div class="col">
-                <div class="card h-100 shadow-sm">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 250px; object-fit: cover;">
-                    {% else %}
-                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 250px;">
-                            NO IMAGE
+                <a href="{% url 'product_detail' pk=product.pk %}" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 250px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 250px;">
+                                NO IMAGE
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <span class="badge bg-secondary mb-2">{{ product.category.name }}</span>
+                            <h5 class="card-title text-dark">{{ product.title }}</h5>
+                            <p class="card-text text-danger fw-bold">¥{{ product.price }} (税込)</p>
                         </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <span class="badge bg-secondary mb-2">{{ product.category.name }}</span>
-                        <h5 class="card-title text-dark">{{ product.title }}</h5>
-                        <p class="card-text text-danger fw-bold">¥{{ product.price }} (税込)</p>
                     </div>
-                </div>
+                </a>    
             </div>
             {% empty %}
             <p>現在、登録されている商品はありません。</p>
